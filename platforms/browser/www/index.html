@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+       
+            <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-storage.js"></script>
+         <script>
+        // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyACUq70bLjR_V3DWGF_9r31Ml-JxBU4hi0",
+            authDomain: "my-app-ffb88.firebaseapp.com",
+            databaseURL: "https://my-app-ffb88.firebaseio.com",
+            projectId: "my-app-ffb88",
+            storageBucket: "my-app-ffb88.appspot.com",
+            messagingSenderId: "824084953888"
+          };
+          firebase.initializeApp(config);
+        </script>
+        <script src="jquery-3.3.1.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="moment.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto|Lora:italic" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+        <title>100 Dagar</title>
+        <script type="text/javascript" charset="utf-8">
+            const threehours = 10800000;
+        // Dagens datum
+        $(document).ready(function(){
+            moment.locale('sv');
+            var now=moment();
+            var truncate = moment(now - threehours);
+            var eDisplayMoment = document.getElementById('displayMoment');
+            eDisplayMoment.innerHTML = truncate.format('Do MMMM YYYY');
+        });
+        
+        // Slutdatum 
+        moment.locale('sv');
+        var current = moment();
+        var end = moment("14-12-2018", "DD-MM-YYYY");
+        $(function () {
+            if (current.isBefore(end,'day')) {     
+                var diff = moment(end).diff(moment(current));
+                var tid = moment.duration(diff);
+                var resterande = Math.round(tid.asDays());
+                if(resterande >= 2)
+                {
+                    $("#displayFinal").text(resterande + " dagar");
+                }
+                else if(resterande >= 1)
+                {
+                    $("#displayFinal").text(resterande + " dag!!!");
+                }                              
+            }
+            else
+            {
+            	$("#ses").text("Hoppas tentan gick bra, jag vill träffa och kyssa dig");
+                $("#displayFinal").text("NU!!!");
+            }
+        });
+        //splash please
+        function splash(param) {
+         var time = param;
+         setTimeout(function () {
+           $('#splashscreen').hide();
+         }, time);
+        }
+        //vibrate dat shit onDeviceReady
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            navigator.vibrate(250);
+        }
+
+
+        jQuery(document).ready(function(){
+            $("#splashscreen").delay(1000).fadeOut(200, function(){
+                $("#wrapper").fadeIn(800);
+            });  
+        });
+        </script>
+</head>
+<body >
+    <div id="splashscreen"><img src="screen.png" class="img-fluid"></img> </div>
+        <div id="wrapper">                       
+            <h1 id="titel">100 Dagar</h1>
+            <p id="idag">Idag är det den:</p>               
+            <div id="current-date"><i class="fas fa-home"></i></div>         
+            <div id="date-container">
+                <div id="back-arrow"><i class="fas fa-angle-left"></i></div>
+                <p id="displayMoment"></p>
+                <div id="front-arrow"><i class="fas fa-angle-right"></i></div>              
+            </div>
+            <div class="alert">
+                <p id="alertText">  Det går tyvärr inte att se in i framtiden! </p>
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>   
+            </div>  
+            <script>             
+                const today = new Date();
+                today.setHours(today.getHours() - 3);
+                today.setHours(3);
+                today.setMinutes(0);
+                today.setSeconds(0);
+                today.setMilliseconds(0);
+
+                var tsToday = +today;
+                var ts = +today;
+                var allDates = [];            
+                var dateEnd = 1536022800000;
+                var counter = 0;
+
+                $("#current-date").hide();
+                $(".alert").hide();
+                function testUpdate(ts) {   
+                	//variabler innehållandes text och bild content                
+                    var mytext = allDates[ts].Text;
+                    var myimg =  allDates[ts].img;
+                   
+                   	//Dagens datum
+  					moment.locale('sv'); 
+                    var then = moment(ts);      
+                    var eDisplayMoment = document.getElementById('displayMoment');
+                    eDisplayMoment.innerHTML = then.format('Do MMMM YYYY');
+
+                    $("#text").text(mytext);
+                    $("#text").fadeIn(500);
+                    if (myimg != null)
+                    {         
+                         $(".img-fluid").attr("src", myimg); 
+                         $(".img-fluid").fadeIn(1500);
+                    }
+                    else
+                    {   
+                          $(".img-fluid").fadeOut();
+                    }   
+                    if (counter == 0)
+                    {   
+                        console.log(counter);
+                        $("#current-date").fadeOut();
+                    }
+                    var $quote = $("#text");                  
+                    var $numWords = $quote.text().split(" ").length; 
+                            
+                    if (($numWords >= 1) && ($numWords < 10)) {
+                        $quote.css("font-size", "6vw");
+                    }
+                    else if (($numWords >= 10) && ($numWords < 20)) {
+                        $quote.css("font-size", "5vw");
+                    }
+                    else if (($numWords >= 20) && ($numWords < 30)) {
+                        $quote.css("font-size", "4vw");
+                    } 
+                    else {
+                        $quote.css("font-size", "3vw");
+                    }            
+                } 
+             
+                $("#back-arrow").click(function() {
+
+                    const oneDay = 86400000; //in ms
+                    const oneHour = 3600000; //in ms
+                    const nineHours = 32400000;
+                    $("#front-arrow").css({opacity:1});          
+
+                    if( counter == dateEnd ) {      
+                        $("#back-arrow").css({opacity:0.2});                       
+                    } else {
+                        counter++;
+                        var newTs = ts-oneDay;
+
+                        //BAKÅT 7e SEP
+                        //Om föregående dag är detta så ska vi dra bort en timme 
+                        if(newTs == 1536228000000)
+                        {                       	
+                        	//Dra av 9h bara
+                        	newTs = newTs+oneDay-nineHours;                             	 
+                        	ts = newTs;    
+                        	testUpdate(ts);   
+                        	$("#current-date").fadeIn();             
+                        }
+                        
+                        //BAKÅT 4e NOV
+                        //Om föregående dag är detta så ska vi dra bort en timme 
+                        if(newTs == 1541242800000)
+                        {
+                        	//Dra av ytterliggare en timme
+                        	newTs = newTs-oneHour;                             	 
+                        	ts = newTs;    
+                        	testUpdate(ts);   
+                        	$("#current-date").fadeIn();             
+                        }
+                        //om man fortsätter bläddra
+                        if(newTs == 1541152800000)
+                        {
+                        	//återställ
+                        	
+                        	ts = newTs; 
+                        	testUpdate(ts); 
+                        	$("#current-date").fadeIn();
+                        }
+
+                        //else
+                        ts = newTs;                                                  
+                        testUpdate(ts); 
+						$("#current-date").fadeIn();  
+
+                        //last date
+                        if(ts == dateEnd) 
+                        { 
+                            $("#back-arrow").css({opacity:0.2});
+                        }              
+                    }                    
+                }); 
+                $("#front-arrow").click(function() {
+                    $("#back-arrow").css({opacity:1});                  
+                    const oneDay = 86400000;  
+                    const oneHour = 3600000;
+                    const nineHours = 32400000;
+                    if(ts == tsToday)
+                    {
+                        $(".alert").fadeIn();
+                    } else {                       
+                        counter--;
+                        var newTs = ts+oneDay;
+
+                        //FRAMÅT 7e SEP
+                        if(newTs == 1536368400000)
+                        {                       	
+                        	//Dra av 9h bara
+                        	newTs = newTs+nineHours;                             	 
+                        	ts = newTs;    
+                        	testUpdate(ts);   
+                        	$("#current-date").fadeIn();             
+                        }
+                        
+                        //FRAMÅT 4e NOV
+               			//om vi är på 3e nov 11.00 så lägger vi på en timme på newTs
+                        if(newTs == 1541325600000)
+                        {
+                        	//Lägg på en timme
+                        	newTs = newTs+oneHour;                             	 
+                        	ts = newTs;    
+                        	testUpdate(ts);   
+                        	$("#current-date").fadeIn();             
+                        }
+                        //om man fortsätter bläddra till 5e nov etc       
+                        if(newTs == 1541415600000)
+                        {
+                        	//återställ	
+                        	ts = newTs; 
+                        	testUpdate(ts); 
+                        	$("#current-date").fadeIn();
+                        }
+
+                        //else
+                        ts = newTs;                       
+                        testUpdate(ts);
+
+                        if( newTs == tsToday ) 
+                        { 
+                            $("#front-arrow").css({opacity:0.2});
+                            counter = 0;
+                         }                      
+                    }                                   
+                }); 
+                $("#current-date").click(function() {
+                    ts = +today;    
+                    counter = 0;
+                     
+                    var mytext = allDates[ts].Text;
+                    var myimg =  allDates[ts].img;
+                    var then = moment(ts-threehours);
+                    var eDisplayMoment = document.getElementById('displayMoment');
+                    eDisplayMoment.innerHTML = then.format('Do MMMM YYYY');
+                    $("#text").text(mytext);
+                    $("#current-date").fadeOut(); 
+                    $("#back-arrow").css({opacity:1}); 
+                    $("#front-arrow").css({opacity:0.2});          
+                    if (myimg != null)
+                    {
+                         $(".img-fluid").attr("src", myimg); 
+                         $(".img-fluid").fadeIn(1500);
+                    }
+                    else
+                    {   
+                          $(".img-fluid").fadeOut();
+                    }
+                }); 
+                var query = firebase.database().ref("Datum").orderByKey()
+                query.once("value")
+                  .then(function(snapshot) {     
+                    allDates = snapshot.val();
+                    var mytext = snapshot.child(ts).val().Text;
+                    var myimg = snapshot.child(ts).val().img;              
+                    //snapshot.numChildren()-106;
+                    console.log("dateEnd" + dateEnd);  
+                    $("#text").text(mytext);
+                    $(".img-fluid").attr("src", myimg); 
+
+                    var $quote = $("#text");                  
+                    var $numWords = $quote.text().split(" ").length; 
+                         
+                    if (($numWords >= 1) && ($numWords < 10)) {
+                        $quote.css("font-size", "6vw");
+                    }
+                    else if (($numWords >= 10) && ($numWords < 20)) {
+                        $quote.css("font-size", "5vw");
+                    }
+                    else if (($numWords >= 20) && ($numWords < 30)) {
+                        $quote.css("font-size", "4vw");
+                    } 
+                    else {
+                        $quote.css("font-size", "3vw");
+                    }  
+                    if (myimg != null)
+                    {
+                         $(".img-fluid").attr("src", myimg); 
+                         $(".img-fluid").fadeIn(3500);
+                    }
+                    else
+                    {   
+                          $(".img-fluid").fadeOut();
+                    }  
+
+                    var replaced = $("#text").html().replace(/:D/g,'<i class="em em-grinning"></i>');
+                    $("#text").html(replaced);
+                    var replaced2 = $("#text").html().replace(/hjärtögon/g,'<i class="em em-heart_eyes"></i>');
+                    $("#text").html(replaced2);
+                    var replaced3 = $("#text").html().replace(/corazon/g,'<i class="em em-heart"></i>');
+                    $("#text").html(replaced3);
+                    var replaced4 = $("#text").html().replace(/kissing/g,'<i class="em em-kissing_heart"></i>');
+                    $("#text").html(replaced4);
+                    var replaced5 = $("#text").html().replace(/:'D/g,'<i class="em em-sweat_smile"></i>');
+                    $("#text").html(replaced5);                   
+                    var replaced6 = $("#text").html().replace(/O.O/g,'<i class="em em-face_with_rolling_eyes"></i>');
+                    $("#text").html(replaced6);
+                    var replaced7 = $("#text").html().replace(/:O/g,'<i class="em em-open_mouth"></i>');
+                    $("#text").html(replaced7);
+                    var replaced8 = $("#text").html().replace(':)','<i class="em em-relaxed"></i>');
+                    $("#text").html(replaced8);
+
+                });
+            </script> 
+            <img class="img-fluid" style="border:1px solid #ffffff;"></img>
+            <div id="text-container">
+                <hr width="95%" />   
+                <div id="text"></div>
+                <hr width="90%" />
+            </div>    
+            <footer class="footer">
+                <p id = "ses"> Vi kommer att ses om: </p>
+                <p id="displayFinal"></p>
+            </footer>       
+        </div>
+        <script>       
+        window.fadeIn = function(obj) {       
+            $(obj).fadeIn(3000);
+        }     
+        </script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+     
+</body>
+</html>

@@ -1,0 +1,215 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html
+{
+    height: 100%;
+}
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background: #cc2b5e; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #cc2b5e, #750000); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #cc2b5e, #750000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
+    background-repeat: no-repeat;
+    height: 100%;
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    color:white;
+    margin:0;
+    width:100%;
+     background-attachment: fixed;
+}
+#splashscreen
+{
+    z-index: 99;
+}
+/* Portrait layout (default) */
+.app {
+    
+    position:absolute;             
+    left:50%;
+    top:50%;
+    height:50px;                   
+    width:225px;                  
+    text-align:center;
+    padding:180px 0px 0px 0px;     
+    margin:-115px 0px 0px -112px;                        
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+    .app {
+        background-position:left center;
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
+    }
+
+    .img-fluid
+    {
+        width:100%;
+    }
+}
+.img-fluid
+{
+    width:100%;
+    padding:0;
+
+}
+.img-splash
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 810px;
+    margin-top: -405px; /* Half the height */
+    margin-left: -250px;
+    z-index: 999;
+}
+
+#wrapper
+{
+    margin-right: auto; /* 1 */
+    margin-left:  auto; /* 1 */
+
+    max-width: 960px; /* 2 */
+    min-height: 100%;
+    padding-right: 10px; /* 3 */
+    padding-left:  10px; /* 3 */
+}
+#titel
+{
+    font-size: 12vw;
+    font-family: 'Lora', serif;
+    padding-top: 1vh;
+    text-align:center;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.4);
+}
+#idag
+{
+    font-size: 3vw;
+    text-align: center;
+    margin:0;
+   /* margin-top: 10px;*/
+    margin-bottom: -15px;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+}
+#date-container
+{
+    display: flex;
+    align-items: center;
+    text-align:center;
+    
+}
+#back-arrow
+{
+    font-size: 2em;
+}
+#displayMoment
+{
+    width:100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7vw;
+    margin:0;
+    /*margin-bottom: -1.5vh;*/
+    text-align: center;
+    text-transform: none;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+}
+#front-arrow
+{
+    font-size: 2em;
+    opacity:0.2;
+}
+#current-date
+{
+    position: absolute;
+    top: 1vh; 
+    left: 88vw; /* can adjust div position by changing left and top etc */
+    font-size:8vw;
+}
+
+/*BILD+TEXT */ 
+img {
+    padding:0px 30px 30px;
+    margin-bottom: 0;
+}
+#text
+{
+    padding:0px 20px;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.1);
+    color:white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #fff;
+    margin: 1em auto;
+    padding: 0;
+}
+
+/* The alert message box */
+.alert {
+    position: absolute;
+    top:45vh;
+    left:8vw;
+    display:flex;
+    background-color: #cc2b5e; /* Red */
+    color: white;
+    white-space: nowrap;
+    border:1px solid #ffffff;
+    height:50px;
+}
+
+/* The close button */
+.closebtn {
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-top: 3px;
+    font-size: 8vw;
+    line-height: 20px;
+    cursor: pointer;
+}
+#alertText
+{
+    text-align:center;
+    margin-right: 2vh;
+}
+
+/* FOOTER */ 
+.footer {
+    margin-bottom: 2vh;
+  
+}
+#ses{
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3vw;
+    text-align: center;
+    margin:0;
+    margin-bottom: -15px;
+    margin-top: 1em;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+ 
+}
+#displayFinal
+{
+    font-family: 'Lora', sans-serif;
+    font-size: 30pt;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:6vh;
+    text-align: center;
+    text-transform: none;
+    margin:0;
+    text-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+}
